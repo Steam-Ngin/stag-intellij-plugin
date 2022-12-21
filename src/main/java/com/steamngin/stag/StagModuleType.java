@@ -7,7 +7,6 @@ import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleTypeManager;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import org.jetbrains.annotations.NotNull;
-
 import javax.swing.*;
 
 public class StagModuleType extends ModuleType<StagModuleBuilder> {

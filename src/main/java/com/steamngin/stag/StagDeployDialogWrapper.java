@@ -10,6 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class StagDeployDialogWrapper extends DialogWrapper {
@@ -77,6 +79,19 @@ public class StagDeployDialogWrapper extends DialogWrapper {
         super.doOKAction();
     }
 
+    private String getstagDesktopDeploymentConfigFile() {
+        Path stagDesktopDeploymentConfigFilePath = Paths.get(Constants.steamCtlCfgPath,
+                config.stagPattern,
+                config.stagVersion,
+                config.stagName + "steamctlcfg",
+                "desktop_deployment_config.yml"
+        );
+
+        final String stagDesktopDeploymentConfigFilePathStr = stagDesktopDeploymentConfigFilePath.toString();
+
+        return  stagDesktopDeploymentConfigFilePathStr;
+    }
+
     @Nullable
     @Override
     protected JComponent createCenterPanel() {
@@ -84,7 +99,7 @@ public class StagDeployDialogWrapper extends DialogWrapper {
             throw new RuntimeException("Path is null");
         }
         try {
-            config = StagConfigManager.loadStagConfig(path);
+            config = StagConfigManager.loadStagConfig();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -93,6 +108,7 @@ public class StagDeployDialogWrapper extends DialogWrapper {
         }
 
         final boolean isOsx = Objects.equals(System.getProperty("os.name"), "Mac OS X");
+        final String stagDesktopDeploymentConfigFilePath = getstagDesktopDeploymentConfigFile();
 
         JPanel dialogPanel = new JPanel(new GridLayout(8, 2));
         dialogPanel.setPreferredSize(new Dimension(500, 200));
@@ -101,7 +117,9 @@ public class StagDeployDialogWrapper extends DialogWrapper {
         checkBox = new JCheckBox();
         JLabel label2 = new JLabel("Deployment Config");
         textField = new JTextField();
-        textField.setText(isOsx ? "/Users/" + Constants.userName + "/steamworks/steamctlcfg/{stag_pattern}/{stag_version}/{stag_name}steamctlcfg/desktop_deploment_config.yml" : "c:\\users\\" + Constants.userName + "\\steamworks\\steamctlcfg\\{stag_pattern}\\{stag_version}\\{stag_name}steamctlcfg\\desktop_deployment_config.yml");
+        textField.setText(stagDesktopDeploymentConfigFilePath);
+
+//        textField.setText(isOsx ? "/Users/" + Constants.userName + "/steamworks/steamctlcfg/{stag_pattern}/{stag_version}/{stag_name}steamctlcfg/desktop_deploment_config.yml" : "c:\\users\\" + Constants.userName + "\\steamworks\\steamctlcfg\\{stag_pattern}\\{stag_version}\\{stag_name}steamctlcfg\\desktop_deployment_config.yml");
 
         dialogPanel.add(label);
         dialogPanel.add(checkBox);

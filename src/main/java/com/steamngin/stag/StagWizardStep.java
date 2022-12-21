@@ -91,14 +91,15 @@ public class StagWizardStep extends ModuleWizardStep {
 
     private String getStagDynamicPath() {
         try {
-            final String stagDynamicName = Objects.equals(textField.getText(), "petstag") ? "petstag" : textField.getText();
+//            final String stagDynamicName = Objects.equals(textField.getText(), "petstag") ? "petstag" : textField.getText();
             final String stagDynamicPattern = Objects.requireNonNull(comboBox.getSelectedItem()).toString();
             final String stagDynamicPatternVersion = Objects.requireNonNull(comboBox2.getSelectedItem()).toString();
 
             Path stagDynamicPath = Paths.get(Constants.stemPath,
                     stagDynamicPattern,
-                    stagDynamicPatternVersion,
-                    stagDynamicName);
+                    stagDynamicPatternVersion
+//                    stagDynamicName
+            );
 
             final String stagDynamicPathStr = stagDynamicPath.toString();
 
